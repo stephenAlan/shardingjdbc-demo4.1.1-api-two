@@ -1,0 +1,46 @@
+server.port=8002
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.189.128/test?allowMultiQueries=true&rewriteBatchedStatements=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+    username: root
+    password: 123456
+
+spring.main.allow-bean-definition-overriding=true
+
+# \u914D\u7F6ESharding-JDBC\u7684\u5206\u7247\u7B56\u7565
+# \u914D\u7F6E\u6570\u636E\u6E90\uFF0C\u7ED9\u6570\u636E\u6E90\u8D77\u540Dg1,g2...\u6B64\u5904\u53EF\u914D\u7F6E\u591A\u6570\u636E\u6E90
+spring.shardingsphere.datasource.names=db1
+
+spring.shardingsphere.datasource.db1.type=com.alibaba.druid.pool.DruidDataSource
+spring.shardingsphere.datasource.db1.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.shardingsphere.datasource.db1.url=jdbc:mysql://192.168.189.128/test?allowMultiQueries=true&rewriteBatchedStatements=true&useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8&useSSL=false
+spring.shardingsphere.datasource.db1.username=root
+spring.shardingsphere.datasource.db1.password=123456
+
+## \u7B2C\u4E00\u79CD,\u56FA\u5B9A\u8868\u7684\u8303\u56F4 start
+# \u914D\u7F6E\u8868\u7684\u5206\u5E03\uFF0C\u8868\u7684\u7B56\u7565
+#spring.shardingsphere.sharding.tables.product.actual-data-nodes=db1.product_$->{2020..2023}
+#spring.shardingsphere.sharding.tables.product.table-strategy.inline.sharding-column=nd
+#spring.shardingsphere.sharding.tables.product.table-strategy.inline.algorithm-expression=product_$->{nd}
+
+# \u6307\u5B9A\u5206\u7247\u7B56\u7565
+spring.shardingsphere.sharding.tables.product.actual-data-nodes=db1.product
+spring.shardingsphere.sharding.tables.product.table-strategy.standard.sharding-column=nd
+spring.shardingsphere.sharding.tables.product.table-strategy.standard.precise-algorithm-class-name=com.stephen.demo.config.NdPreciseShardingAlgorithm
+#spring.shardingsphere.sharding.tables.product.table-strategy.standard.range-algorithm-class-name=com.stephen.demo.config.NdPreciseShardingAlgorithm
+
+
+###  \u52A8\u6001\u521B\u5EFA\u8868\u7684\u8868\u540D\u79F0 \u521B\u5EFA\u65F6\u95F4\u5F00\u59CB\u5E74 #########
+shardingjdbc.table.names=product
+shardingjdbc.table.startYear=2018
+
+# \u6253\u5F00sql\u8F93\u51FA\u65E5\u5FD7
+spring.shardingsphere.props.sql.show=true
+
+mybatis.mapper-locations=classpath:mapper/*Mapper.xml
+mybatis.type-aliases-package=com.stephen.demo.entity
+mybatis.configuration.map-underscore-to-camel-case=true
+
+#logging.level: com.stephen.demo.mapper: debug

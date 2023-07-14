@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stephen.demo.mapper.StuMapper">
+
+    <select id="list"  resultType="Stu">
+        SELECT *
+        FROM stu
+    </select>
+
+    <select id="selectList"  resultType="Stu">
+        SELECT *
+        FROM stu where nd = 2023
+    </select>
+
+    <insert id="insert">
+        INSERT INTO stu (nd, comment, create_date) VALUES(#{nd}, #{comment}, now());
+    </insert>
+
+    <select id="selectTable" resultType="int">
+        select 1 from ${tableName} LIMIT 1
+    </select>
+
+    <select id="createTable" resultType="int">
+        CREATE TABLE IF NOT EXISTS ${tableName} like ${logicTableName}
+    </select>
+
+
+</mapper>
